@@ -133,4 +133,32 @@ const Home = () => {
   );
 };
 
+export default Home;import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Product from "../components/Product";
+
+const Home = () => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/products");
+        setProducts(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getProducts();
+  }, []);
+
+  return (
+    <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+      {products.map((item) => (
+        <Product item={item} key={item._id} />
+      ))}
+    </div>
+  );
+};
+
 export default Home;
